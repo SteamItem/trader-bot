@@ -17,8 +17,8 @@ export class DuelbitsCsGoWorker extends WorkerBase {
   private api: DuelbitsApi;
   protected bot: IBot;
 
-  constructor(api: DuelbitsApi, logger: LoggerBase) {
-    super(logger);
+  constructor(botId: string, api: DuelbitsApi, logger: LoggerBase) {
+    super(botId, logger);
     this.api = api;
   }
 
@@ -45,7 +45,7 @@ export class DuelbitsCsGoWorker extends WorkerBase {
   }
 
   getDatabaseSelector(): DatabaseSelectorTask {
-    return new DuelbitsCsGoDatabaseSelector(this.enumBot);
+    return new DuelbitsCsGoDatabaseSelector(this.botId);
   }
 
   private inventoryScheduler() {

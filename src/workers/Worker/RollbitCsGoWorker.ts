@@ -13,8 +13,8 @@ export class RollbitCsGoWorker extends RollbitBase {
   private api: RollbitApi;
   protected bot: IBot;
 
-  constructor(api: RollbitApi, logger: LoggerBase) {
-    super(logger);
+  constructor(botId: string, api: RollbitApi, logger: LoggerBase) {
+    super(botId, logger);
     this.api = api;
   }
 

@@ -7,8 +7,7 @@ export interface IBot {
   code?: string;
 }
 
-export interface IBotDocument extends mongoose.Document, IBot {
-}
+export interface IBotDocument extends mongoose.Document, IBot {}
 
 const BotSchema: mongoose.Schema = new mongoose.Schema({
   type: { type: Number, required: true },

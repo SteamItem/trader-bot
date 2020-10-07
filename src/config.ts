@@ -1,5 +1,6 @@
 export = {
   NODE_ENV: process.env.NODE_ENV || "development",
+  BOT_ID: process.env.BOT_ID || "INVALID BOT ID",
   CORS_WHITELIST: process.env.CORS_WHITELIST || "INVALID WHITELIST",
   DB_URL: process.env.DB_URL || "INVALID DB URL",
   RDB_URL: process.env.RDB_URL || "INVALID RDB URL",

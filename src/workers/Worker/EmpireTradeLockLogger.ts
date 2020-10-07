@@ -24,7 +24,7 @@ export class EmpireTradeLockLogger extends WorkerBase {
 
   enumBot = EnumBot.EmpireTradeLockLogger;
   getDatabaseSelector(): DatabaseSelectorTask {
-    return new EmpireDatabaseSelector(EnumBot.EmpireTradeLockLogger);
+    return new EmpireDatabaseSelector(this.botId);
   }
   getInventoryGetter(): InventoryGetterTask<IEmpireTradeLockInventoryItem> {
     return new EmpireTradeLockInventoryGetterTask(this.bot);

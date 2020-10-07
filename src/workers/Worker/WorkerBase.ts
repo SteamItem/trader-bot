@@ -5,10 +5,12 @@ import { DatabaseSelectorTask } from '../DatabaseSelector/DatabaseSelectorTask';
 import { LoggerBase } from '../Logger/LoggerBase';
 import { EnumBot } from '../../helpers/enum';
 export abstract class WorkerBase {
-  constructor(logger: LoggerBase) {
+  constructor(botId: string, logger: LoggerBase) {
+    this.botId = botId;
     this.logger = logger;
   }
 
+  protected botId: string;
   protected logger: LoggerBase;
   protected bot: IBot;
   protected wishlistItems: IWishlistItem[];

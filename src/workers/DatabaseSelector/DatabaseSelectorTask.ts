@@ -2,16 +2,15 @@ import botController = require('../../controllers/bot');
 import { IWishlistItem } from '../../models/wishlistItem';
 import { IBot } from '../../models/bot';
 import { WorkerTask } from '../Common/WorkerTask';
-import { EnumBot } from '../../helpers/enum';
 export abstract class DatabaseSelectorTask extends WorkerTask {
   taskName = "Database Selector";
-  constructor(enumBot: EnumBot) {
+  constructor(botId: string) {
     super();
-    this.$enumBot = enumBot;
+    this.$botId = botId;
   }
-  private $enumBot: EnumBot;
+  private $botId: string;
   private getEnumBot() {
-    return botController.findOne(this.$enumBot);
+    return botController.findById(this.$botId);
   }
   private $bot: IBot;
   public get bot(): IBot {

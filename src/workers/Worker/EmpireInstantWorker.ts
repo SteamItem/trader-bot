@@ -24,7 +24,7 @@ export class EmpireInstantWorker extends WorkerBase {
 
   enumBot = EnumBot.EmpireInstant;
   getDatabaseSelector(): DatabaseSelectorTask {
-    return new EmpireDatabaseSelector(EnumBot.EmpireInstant);
+    return new EmpireDatabaseSelector(this.botId);
   }
   getInventoryGetter(): InventoryGetterTask<IEmpireInstantInventoryItem> {
     return new EmpireInstantInventoryGetterTask(this.bot);

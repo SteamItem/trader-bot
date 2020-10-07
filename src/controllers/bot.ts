@@ -1,33 +1,11 @@
 import pm2 = require('pm2');
 import Bot, { IBot } from '../models/bot';
-import { EnumBot, getBotText } from '../helpers/enum';
+import { EnumBot } from '../helpers/enum';
 import config = require('../config');
-import telegramController = require("./telegram");
 
-async function findOne(id: EnumBot): Promise<IBot> {
-  const bot = await Bot.findOne({ id }).exec();
+async function findById(id: string): Promise<IBot> {
+  const bot = await Bot.findById(id).exec();
   return bot;
-}
-
-async function update(id: number, worker: boolean, code: string): Promise<IBot> {
-  await manageBot(id, worker);
-  await sendBotMessage(id, worker);
-  return await Bot.findOneAndUpdate({ id }, { worker, code }).exec();
-}
-
-function manageBot(id: EnumBot, worker: boolean) {
-  if (worker) {
-    return startBot(id);
-  } else {
-    return stopBot(id);
-  }
-}
-
-function sendBotMessage(bot: EnumBot, worker: boolean) {
-  const botText = getBotText(bot);
-  const state = worker ? "Started" : "Stopped";
-  const message = `${botText}: ${state}`;
-  return telegramController.sendMessage(message);
 }
 
 function getBotFileName(id: EnumBot) {
@@ -45,16 +23,17 @@ function getWorkerPath(fileName: string) {
   return `./dist/src/${fileName}.js`;
 }
 
-async function stopBot(id: number) {
-  const botFileName = getBotFileName(id);
-  pm2.stop(botFileName, function(err) {
+async function stopBot(id: string) {
+  const bot = await Bot.findById(id);
+  pm2.stop(bot._id, function(err) {
     pm2.disconnect();
     if (err) throw err
   });
 }
 
-async function startBot(id: number) {
-  const botFileName = getBotFileName(id);
+async function startBot(id: string) {
+  const bot = await Bot.findById(id);
+  const botFileName = getBotFileName(bot.type);
   const workerPath = getWorkerPath(botFileName);
   pm2.connect(err => {
     if (err) {
@@ -63,9 +42,10 @@ async function startBot(id: number) {
     }
     pm2.start({
       script: workerPath,
-      name: botFileName,
+      name: bot._id,
       env: {
         NODE_ENV: config.NODE_ENV,
+        BOT_ID: bot._id,
         DB_URL: config.DB_URL,
         RDB_URL: config.RDB_URL,
         TELEGRAM_TOKEN: config.TELEGRAM_TOKEN,
@@ -81,12 +61,13 @@ async function startBot(id: number) {
 async function handleBots() {
   const bots = await Bot.find({worker: true}).exec();
   bots.forEach(async bot => {
-    await startBot(bot.id);
+    await startBot(bot._id);
   });
 }
 
 export = {
-  findOne,
-  update,
-  handleBots
+  findById,
+  handleBots,
+  startBot,
+  stopBot
 }
