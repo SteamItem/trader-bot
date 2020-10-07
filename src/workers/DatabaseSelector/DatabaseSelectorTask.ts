@@ -1,21 +1,21 @@
-import paramController = require('../../controllers/botParam');
+import botController = require('../../controllers/bot');
 import { IWishlistItem } from '../../models/wishlistItem';
-import { IBotParam } from '../../models/botParam';
+import { IBot } from '../../models/bot';
 import { WorkerTask } from '../Common/WorkerTask';
 import { EnumBot } from '../../helpers/enum';
 export abstract class DatabaseSelectorTask extends WorkerTask {
   taskName = "Database Selector";
-  constructor(bot: EnumBot) {
+  constructor(enumBot: EnumBot) {
     super();
-    this.bot = bot;
+    this.$enumBot = enumBot;
   }
-  private bot: EnumBot;
-  private getBotParam() {
-    return paramController.findOne(this.bot);
+  private $enumBot: EnumBot;
+  private getEnumBot() {
+    return botController.findOne(this.$enumBot);
   }
-  private $botParam: IBotParam;
-  public get botParam(): IBotParam {
-    return this.$botParam;
+  private $bot: IBot;
+  public get bot(): IBot {
+    return this.$bot;
   }
   private $wishlistItems: IWishlistItem[];
   public get wishlistItems(): IWishlistItem[] {
@@ -23,10 +23,10 @@ export abstract class DatabaseSelectorTask extends WorkerTask {
   }
   abstract getWishlistItems(): Promise<IWishlistItem[]>;
   async work(): Promise<void> {
-    const botParamPromise = this.getBotParam();
+    const botEnumBotPromise = this.getEnumBot();
     const wishlistItemsPromise = this.getWishlistItems();
-    const result = await Promise.all([botParamPromise, wishlistItemsPromise]);
-    this.$botParam = result[0];
+    const result = await Promise.all([botEnumBotPromise, wishlistItemsPromise]);
+    this.$bot = result[0];
     this.$wishlistItems = result[1];
   }
 }

@@ -4,29 +4,29 @@ import { RollbitWithdrawMakerTask } from '../WithdrawMaker/RollbitWithdrawMakerT
 import { RollbitBase } from './RollbitBase';
 import { EnumBot } from '../../helpers/enum';
 import { IRollbitSocketItem, IRollbitSocketBalance } from '../../interfaces/rollbit';
-import { IBotParam } from '../../models/botParam';
+import { IBot } from '../../models/bot';
 import { RollbitApi } from '../../api/rollbit';
 import { LoggerBase } from '../Logger/LoggerBase';
 export class RollbitCsGoWorker extends RollbitBase {
-  bot = EnumBot.RollbitCsGo;
+  enumBot = EnumBot.RollbitCsGo;
   private balance: number;
   private api: RollbitApi;
-  protected botParam: IBotParam;
+  protected bot: IBot;
 
   constructor(api: RollbitApi, logger: LoggerBase) {
     super(logger);
     this.api = api;
   }
 
-  start(botParam: IBotParam): void {
-    super.start(botParam);
-    this.botParam = botParam;
+  start(bot: IBot): void {
+    super.start(bot);
+    this.bot = bot;
     this.inventoryGetter();
   }
 
   private inventoryGetter() {
     return cron.schedule('*/15 * * * * *', async () => {
-      await this.api.csgoInventory(this.botParam.cookie);
+      await this.api.csgoInventory(this.bot.cookie);
     });
   }
 
@@ -44,7 +44,7 @@ export class RollbitCsGoWorker extends RollbitBase {
       currentTask = inventoryFilterer.taskName;
       inventoryFilterer.filter();
 
-      const withdrawMaker = new RollbitWithdrawMakerTask(this.api, this.botParam, inventoryFilterer.itemsToBuy);
+      const withdrawMaker = new RollbitWithdrawMakerTask(this.api, this.bot, inventoryFilterer.itemsToBuy);
       currentTask = withdrawMaker.taskName;
       await withdrawMaker.work();
 

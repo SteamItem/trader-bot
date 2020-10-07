@@ -1,18 +1,18 @@
 import pm2 = require('pm2');
-import BotParam, { IBotParam } from '../models/botParam';
+import Bot, { IBot } from '../models/bot';
 import { EnumBot, getBotText } from '../helpers/enum';
 import config = require('../config');
 import telegramController = require("./telegram");
 
-async function findOne(id: EnumBot): Promise<IBotParam> {
-  const botParam = await BotParam.findOne({ id }).exec();
-  return botParam;
+async function findOne(id: EnumBot): Promise<IBot> {
+  const bot = await Bot.findOne({ id }).exec();
+  return bot;
 }
 
-async function update(id: number, worker: boolean, code: string): Promise<IBotParam> {
+async function update(id: number, worker: boolean, code: string): Promise<IBot> {
   await manageBot(id, worker);
   await sendBotMessage(id, worker);
-  return await BotParam.findOneAndUpdate({ id }, { worker, code }).exec();
+  return await Bot.findOneAndUpdate({ id }, { worker, code }).exec();
 }
 
 function manageBot(id: EnumBot, worker: boolean) {
@@ -79,7 +79,7 @@ async function startBot(id: number) {
 }
 
 async function handleBots() {
-  const bots = await BotParam.find({worker: true}).exec();
+  const bots = await Bot.find({worker: true}).exec();
   bots.forEach(async bot => {
     await startBot(bot.id);
   });

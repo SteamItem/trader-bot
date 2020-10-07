@@ -1,17 +1,16 @@
 import express = require('express');
-import cors = require('cors');
-import paramController = require('../controllers/botParam');
+import botController = require('../controllers/bot');
 
 export = (app: express.Express) => {
-  app.get('/botParams/:id', async (req, res) => {
+  app.get('/bot/:id', async (req, res) => {
     const id = parseInt(req.params.id);
-    paramController.findOne(id)
+    botController.findOne(id)
       .then(result => res.send(result))
       .catch(error => res.status(500).send(error));
   });
-  app.put('/botParams/:_id', async (req, res) => {
+  app.put('/bot/:_id', async (req, res) => {
     const id = parseInt(req.params._id);
-    paramController.update(id, req.body.worker, req.body.code)
+    botController.update(id, req.body.worker, req.body.code)
       .then(result => res.send(result))
       .catch(error => res.status(500).send(error));
   });

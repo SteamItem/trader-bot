@@ -22,15 +22,15 @@ export class EmpireTradeLockLogger extends WorkerBase {
   private priceChanges: IEmpireTradeLockPriceChange[] = [];
   private newItems: IEmpireTradeLockPrice[] = [];
 
-  bot = EnumBot.EmpireTradeLockLogger;
+  enumBot = EnumBot.EmpireTradeLockLogger;
   getDatabaseSelector(): DatabaseSelectorTask {
     return new EmpireDatabaseSelector(EnumBot.EmpireTradeLockLogger);
   }
   getInventoryGetter(): InventoryGetterTask<IEmpireTradeLockInventoryItem> {
-    return new EmpireTradeLockInventoryGetterTask(this.botParam);
+    return new EmpireTradeLockInventoryGetterTask(this.bot);
   }
   getTokenGetter(): TokenGetterTask {
-    return new EmpireTokenGetterTask(this.botParam);
+    return new EmpireTokenGetterTask(this.bot);
   }
   start(): void {
     const tokenScheduler = this.tokenScheduler();

@@ -4,6 +4,6 @@ import { CSGOEmpireApi } from '../../api/csgoempire';
 export class EmpireInstantInventoryGetterTask extends InventoryGetterTask<IEmpireInstantInventoryItem> {
   getStoreItems(): Promise<IEmpireInstantInventoryItem[]> {
     const api = new CSGOEmpireApi();
-    return api.instantInventory(this.botParam.cookie);
+    return api.instantInventory(this.bot.cookie);
   }
 }

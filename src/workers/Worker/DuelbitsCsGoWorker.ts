@@ -1,6 +1,6 @@
 import cron = require('node-cron');
 import { EnumBot } from '../../helpers/enum';
-import { IBotParam } from '../../models/botParam';
+import { IBot } from '../../models/bot';
 import { DatabaseSelectorTask } from '../DatabaseSelector/DatabaseSelectorTask';
 import { WorkerBase } from './WorkerBase';
 import { LoggerBase } from '../Logger/LoggerBase';
@@ -11,11 +11,11 @@ import { IDuelbitsOnAuth, IDuelbitsOnUserUpdate } from '../../interfaces/duelbit
 import { DuelbitsSocket } from '../../api/duelbitsSocket';
 import { DuelbitsWithdrawMakerTask } from '../WithdrawMaker/DuelbitsWithdrawMakerTask';
 export class DuelbitsCsGoWorker extends WorkerBase {
-  bot = EnumBot.DuelbitsCsGoWorker;
+  enumBot = EnumBot.DuelbitsCsGoWorker;
   private balance: number;
   private tradeUrl: string;
   private api: DuelbitsApi;
-  protected botParam: IBotParam;
+  protected bot: IBot;
 
   constructor(api: DuelbitsApi, logger: LoggerBase) {
     super(logger);
@@ -24,11 +24,11 @@ export class DuelbitsCsGoWorker extends WorkerBase {
 
   private socket: DuelbitsSocket;
   private scheduledTasks: cron.ScheduledTask[] = [];
-  start(botParam: IBotParam): void {
-    this.botParam = botParam;
+  start(bot: IBot): void {
+    this.bot = bot;
     this.socket = new DuelbitsSocket();
     this.socket.connect().then(socket => {
-      socket.emit('authenticate', botParam.cookie, (data: IDuelbitsOnAuth) => {
+      socket.emit('authenticate', bot.cookie, (data: IDuelbitsOnAuth) => {
         this.onAuth(data);
       });
       socket.on('user:update', (data: IDuelbitsOnUserUpdate) => {
@@ -45,7 +45,7 @@ export class DuelbitsCsGoWorker extends WorkerBase {
   }
 
   getDatabaseSelector(): DatabaseSelectorTask {
-    return new DuelbitsCsGoDatabaseSelector(this.bot);
+    return new DuelbitsCsGoDatabaseSelector(this.enumBot);
   }
 
   private inventoryScheduler() {

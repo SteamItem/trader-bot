@@ -3,7 +3,7 @@ import bodyParser = require('body-parser');
 import cors = require('cors');
 import mongoHelper = require('./helpers/mongo');
 import db = require('./db');
-import botParam = require('./controllers/botParam');
+import botController = require('./controllers/bot');
 import routes = require('./routes');
 const PORT = process.env.PORT || 3000;
 
@@ -19,7 +19,7 @@ db.sync();
 
 routes.registerRoutes(app);
 
-botParam.handleBots();
+botController.handleBots();
 
 // listen for requests
 app.listen(PORT, () => {

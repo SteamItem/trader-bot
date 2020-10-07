@@ -3,7 +3,7 @@ import { CSGOEmpireApi } from '../../api/csgoempire';
 export class EmpireBalanceCheckerTask extends BalanceCheckerTask {
   async getBalance(): Promise<number> {
     const api = new CSGOEmpireApi();
-    const profile = await api.profile(this.botParam.cookie);
+    const profile = await api.profile(this.bot.cookie);
     return profile.balance / 100;
   }
 }

@@ -1,14 +1,14 @@
-import { IBotParam } from '../../models/botParam';
+import { IBot } from '../../models/bot';
 import { WorkerTask } from '../Common/WorkerTask';
 export abstract class InventoryGetterTask<SI> extends WorkerTask {
   taskName = "Inventory Getter";
-  constructor(botParam: IBotParam) {
+  constructor(bot: IBot) {
     super();
-    this.$botParam = botParam;
+    this.$bot = bot;
   }
-  private $botParam: IBotParam;
-  public get botParam(): IBotParam {
-    return this.$botParam;
+  private $bot: IBot;
+  public get bot(): IBot {
+    return this.$bot;
   }
   private $storeItems: SI[] = [];
   public get inventoryItems(): SI[] {

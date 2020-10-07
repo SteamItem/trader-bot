@@ -1,14 +1,14 @@
-import { IBotParam } from '../../models/botParam';
+import { IBot } from '../../models/bot';
 import { WorkerTask } from '../Common/WorkerTask';
 export abstract class BalanceCheckerTask extends WorkerTask {
   taskName = "Balance Checker";
-  constructor(botParam: IBotParam) {
+  constructor(bot: IBot) {
     super();
-    this.$botParam = botParam;
+    this.$bot = bot;
   }
-  private $botParam: IBotParam;
-  public get botParam(): IBotParam {
-    return this.$botParam;
+  private $bot: IBot;
+  public get bot(): IBot {
+    return this.$bot;
   }
   private $balance: number;
   public get balance(): number {

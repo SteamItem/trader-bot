@@ -1,10 +1,10 @@
 import express = require('express');
 import common = require('./common');
-import botParam = require('./botParam');
+import bot = require('./bot');
 
 function registerRoutes(app: express.Express) {
   common(app);
-  botParam(app);
+  bot(app);
 }
 
 export {

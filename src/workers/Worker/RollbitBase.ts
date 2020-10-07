@@ -3,20 +3,20 @@ import { WorkerBase } from "./WorkerBase";
 import { DatabaseSelectorTask } from '../DatabaseSelector/DatabaseSelectorTask';
 import { RollbitCsGoDatabaseSelector } from '../DatabaseSelector/RollbitCsGoDatabaseSelector';
 import { RollbitSocket } from '../../api/rollbitSocket';
-import { IBotParam } from '../../models/botParam';
+import { IBot } from '../../models/bot';
 import { IRollbitSocketBalance, IRollbitSocketItem } from '../../interfaces/rollbit';
 export abstract class RollbitBase extends WorkerBase {
   private socket: RollbitSocket;
   private syncTimer: NodeJS.Timeout;
   private scheduledTasks: cron.ScheduledTask[] = [];
   private syncReceived = false;
-  start(botParam: IBotParam): void {
+  start(bot: IBot): void {
     this.socket = new RollbitSocket();
     this.prepareSocketListeners();
-    this.socket.connect(botParam.cookie);
+    this.socket.connect(bot.cookie);
     this.syncTimer = setInterval(() => {
       console.log("sync sent");
-      this.socket.send('sync', '', botParam.cookie, true);
+      this.socket.send('sync', '', bot.cookie, true);
     }, 2500);
     const socketRestartScheduler = this.socketRestartScheduler();
     this.scheduledTasks = [socketRestartScheduler]
@@ -35,7 +35,7 @@ export abstract class RollbitBase extends WorkerBase {
           return;
         }
         this.socket.disconnect();
-        await this.socket.connect(this.botParam.cookie);
+        await this.socket.connect(this.bot.cookie);
         this.handleMessage(currentTask, "Restarted");
       } catch (e) {
         this.handleError(currentTask, e.message);
@@ -64,6 +64,6 @@ export abstract class RollbitBase extends WorkerBase {
   abstract onBalance(_socketBalance: IRollbitSocketBalance): void;
 
   getDatabaseSelector(): DatabaseSelectorTask {
-    return new RollbitCsGoDatabaseSelector(this.bot);
+    return new RollbitCsGoDatabaseSelector(this.enumBot);
   }
 }

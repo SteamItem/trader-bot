@@ -22,24 +22,24 @@ export class EmpireInstantWorker extends WorkerBase {
   private scheduledTasks: cron.ScheduledTask[] = [];
   private inventoryTimer: NodeJS.Timeout;
 
-  bot = EnumBot.EmpireInstant;
+  enumBot = EnumBot.EmpireInstant;
   getDatabaseSelector(): DatabaseSelectorTask {
     return new EmpireDatabaseSelector(EnumBot.EmpireInstant);
   }
   getInventoryGetter(): InventoryGetterTask<IEmpireInstantInventoryItem> {
-    return new EmpireInstantInventoryGetterTask(this.botParam);
+    return new EmpireInstantInventoryGetterTask(this.bot);
   }
   getBalanceChecker(): BalanceCheckerTask {
-    return new EmpireBalanceCheckerTask(this.botParam);
+    return new EmpireBalanceCheckerTask(this.bot);
   }
   getInventoryFilterer(): InventoryFiltererUnit<IEmpireInstantInventoryItem> {
     return new EmpireInstantInventoryFilterer(this.balance, this.inventoryItems, this.wishlistItems);
   }
   getTokenGetter(): TokenGetterTask {
-    return new EmpireTokenGetterTask(this.botParam);
+    return new EmpireTokenGetterTask(this.bot);
   }
   getWithdrawMaker(): WithdrawMakerTask<IEmpireInstantInventoryItem> {
-    return new EmpireWithdrawMakerTask(this.token, this.botParam, this.itemsToBuy);
+    return new EmpireWithdrawMakerTask(this.token, this.bot, this.itemsToBuy);
   }
   start(): void {
     const tokenScheduler = this.tokenScheduler();

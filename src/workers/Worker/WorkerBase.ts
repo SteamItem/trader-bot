@@ -1,6 +1,6 @@
 import cron = require('node-cron');
 import { IWishlistItem } from '../../models/wishlistItem';
-import { IBotParam } from '../../models/botParam';
+import { IBot } from '../../models/bot';
 import { DatabaseSelectorTask } from '../DatabaseSelector/DatabaseSelectorTask';
 import { LoggerBase } from '../Logger/LoggerBase';
 import { EnumBot } from '../../helpers/enum';
@@ -10,18 +10,18 @@ export abstract class WorkerBase {
   }
 
   protected logger: LoggerBase;
-  protected botParam: IBotParam;
+  protected bot: IBot;
   protected wishlistItems: IWishlistItem[];
   private _working = false;
   private set working(value: boolean) {
     if (this._working === false && value === true) {
-      this.start(this.botParam);
+      this.start(this.bot);
     }
     this._working = value;
   }
 
-  abstract bot: EnumBot;
-  abstract start(botParam: IBotParam): void;
+  abstract enumBot: EnumBot;
+  abstract start(bot: IBot): void;
 
   abstract getDatabaseSelector(): DatabaseSelectorTask;
   async schedule(): Promise<void> {
@@ -36,9 +36,9 @@ export abstract class WorkerBase {
         const databaseSelector = this.getDatabaseSelector();
         currentTask = databaseSelector.taskName;
         await databaseSelector.work();
-        this.botParam = databaseSelector.botParam;
+        this.bot = databaseSelector.bot;
         this.wishlistItems = databaseSelector.wishlistItems;
-        this.working = databaseSelector.botParam.worker;
+        this.working = databaseSelector.bot.worker;
       } catch (e) {
         this.handleError(currentTask, e.message);
       }
@@ -46,10 +46,10 @@ export abstract class WorkerBase {
   }
 
   protected handleMessage(taskName: string, message: string): void {
-    this.logger.handleMessage(this.bot, taskName, message);
+    this.logger.handleMessage(this.enumBot, taskName, message);
   }
 
   protected handleError(taskName: string, message: string): void {
-    this.logger.handleError(this.bot, taskName, message);
+    this.logger.handleError(this.enumBot, taskName, message);
   }
 }
