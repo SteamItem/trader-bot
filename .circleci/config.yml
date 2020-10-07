@@ -1,0 +1,23 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@4.0.0
+
+jobs:
+  build_and_deploy:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-npm
+      - run:
+          name: Install caprover
+          command: sudo npm i caprover -g
+      - run:
+          name: Deploy
+          command: sudo caprover deploy -a bot -b master -u https://captain.app.trader-bot.pw -p ${CAPTAIN_PASSWORD}
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build_and_deploy

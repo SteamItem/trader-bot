@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "module": "commonjs",
+    "outDir": "dist",
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "target": "es6"
+  }
+}
