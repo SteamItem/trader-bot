@@ -173,20 +173,6 @@ RollbitHistory.init({
   tableName: "rollbithistories"
 })
 
-class RollbitFav extends Model {
-  public name!: string;
-}
-
-RollbitFav.init({
-  name: {
-    type: DataTypes.STRING(200),
-    allowNull: false
-  }
-}, {
-  sequelize,
-  tableName: "rollbitfavs"
-})
-
 class AgentStatus extends Model {
   public source: string;
   public createSocketCount: number;
@@ -267,22 +253,6 @@ function updateRollbitHistoryGone(item: IRollbitHistory): Promise<boolean> {
   return RollbitHistory.upsert(item, {fields: ['ref','price','markup','name','weapon','skin','rarity','exterior','baseprice','gone_at']})
 }
 
-function rollbitHistories(): Promise<RollbitHistory[]> {
-  return RollbitHistory.findAll();
-}
-
-function rollbitFavs(): Promise<RollbitFav[]> {
-  return RollbitFav.findAll();
-}
-
-function rollbitFavAdd(name: string): Promise<RollbitFav> {
-  return RollbitFav.create({ name: name });
-}
-
-function rollbitFavRemove(name: string): Promise<number> {
-  return RollbitFav.destroy({where: { name: name }})
-}
-
 function empireTradeLockLastPrices(): Promise<EmpireTradeLockLastPrice[]> {
   return EmpireTradeLockLastPrice.findAll();
 }
@@ -295,10 +265,6 @@ export = {
   sync,
   updateRollbitHistoryListed,
   updateRollbitHistoryGone,
-  rollbitHistories,
-  rollbitFavs,
-  rollbitFavAdd,
-  rollbitFavRemove,
   empireTradeLockLastPrices,
   updateEmpireTradeLockLastPrices
 }
