@@ -44,25 +44,21 @@ export class EmpireTradeLockLogger extends WorkerBase {
   }
   private tokenScheduler() {
     return cron.schedule('*/30 * * * * *', async () => {
-      let currentTask = "tokenScheduler";
       try {
         const tokenGetter = this.getTokenGetter();
-        currentTask = tokenGetter.taskName;
         await tokenGetter.work();
         this.token = tokenGetter.token;
       } catch (e) {
-        this.handleError(currentTask, e.message);
+        this.handleError("Token Scheduler", e.message);
       }
     });
   }
 
   private inventoryScheduler() {
     return cron.schedule('* * * * *', async () => {
-      let currentTask = "inventoryTask";
       try {
         this.lastPrices = await this.getLastPrices();
         const inventoryGetter = this.getInventoryGetter();
-        currentTask = inventoryGetter.taskName;
         await inventoryGetter.work();
         this.inventoryItems = inventoryGetter.inventoryItems;
         this.currentPrices = this.generateCurrentPrices();
@@ -72,7 +68,7 @@ export class EmpireTradeLockLogger extends WorkerBase {
         this.logNewItems();
         await db.updateEmpireTradeLockLastPrices(this.currentPrices);
       } catch (e) {
-        this.handleError(currentTask, e.message);
+        this.handleError("Inventory Scheduler", e.message);
       }
     });
   }

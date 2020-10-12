@@ -28,7 +28,7 @@ export abstract class RollbitBase extends WorkerBase {
   }
   private socketRestartScheduler() {
     return cron.schedule('* * * * *', async () => {
-      const currentTask = "Socket Restarter";
+      const currentTask = "Socket Restart Scheduler";
       try {
         if (this.syncReceived) {
           this.syncReceived = false;

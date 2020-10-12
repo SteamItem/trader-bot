@@ -33,16 +33,14 @@ export abstract class WorkerBase {
 
   private databaseScheduler() {
     return cron.schedule('* * * * * *', async () => {
-      let currentTask = "databaseScheduler";
       try {
         const databaseSelector = this.getDatabaseSelector();
-        currentTask = databaseSelector.taskName;
         await databaseSelector.work();
         this.bot = databaseSelector.bot;
         this.wishlistItems = databaseSelector.wishlistItems;
         this.working = databaseSelector.bot.worker;
       } catch (e) {
-        this.handleError(currentTask, e.message);
+        this.handleError("Database Scheduler", e.message);
       }
     });
   }

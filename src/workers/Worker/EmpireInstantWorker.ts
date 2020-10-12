@@ -56,48 +56,40 @@ export class EmpireInstantWorker extends WorkerBase {
   }
   private tokenScheduler() {
     return cron.schedule('* * * * * *', async () => {
-      let currentTask = "tokenScheduler";
       try {
         const tokenGetter = this.getTokenGetter();
-        currentTask = tokenGetter.taskName;
         await tokenGetter.work();
         this.token = tokenGetter.token;
       } catch (e) {
-        this.handleError(currentTask, e.message);
+        this.handleError("Token Scheduler", e.message);
       }
     });
   }
 
   balanceChecker(): cron.ScheduledTask {
     return cron.schedule('* * * * * *', async () => {
-      let currentTask = "balanceChecker";
       try {
         const balanceChecker = this.getBalanceChecker();
-        currentTask = balanceChecker.taskName;
         await balanceChecker.work();
         this.balance = balanceChecker.balance;
       } catch (e) {
-        this.handleError(currentTask, e.message);
+        this.handleError("Balance Checker", e.message);
       }
     });
   }
 
   private async inventoryTask() {
-    let currentTask = "inventoryTask";
     try {
       const inventoryGetter = this.getInventoryGetter();
-      currentTask = inventoryGetter.taskName;
       await inventoryGetter.work();
       this.inventoryItems = inventoryGetter.inventoryItems;
       const inventoryFilterer = this.getInventoryFilterer();
-      currentTask = inventoryFilterer.taskName;
       inventoryFilterer.filter();
       this.itemsToBuy = inventoryFilterer.itemsToBuy;
       const withdrawMaker = this.getWithdrawMaker();
-      currentTask = withdrawMaker.taskName;
       await withdrawMaker.work();
     } catch (e) {
-      this.handleError(currentTask, e.message);
+      this.handleError("Inventory Task", e.message);
     }
   }
 }

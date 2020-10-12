@@ -3,7 +3,6 @@ import { IWishlistItem } from '../../models/wishlistItem';
 import { IBot } from '../../models/bot';
 import { WorkerTask } from '../Common/WorkerTask';
 export abstract class DatabaseSelectorTask extends WorkerTask {
-  taskName = "Database Selector";
   constructor(botId: string) {
     super();
     this.$botId = botId;

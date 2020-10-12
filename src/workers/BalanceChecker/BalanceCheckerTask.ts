@@ -1,7 +1,6 @@
 import { IBot } from '../../models/bot';
 import { WorkerTask } from '../Common/WorkerTask';
 export abstract class BalanceCheckerTask extends WorkerTask {
-  taskName = "Balance Checker";
   constructor(bot: IBot) {
     super();
     this.$bot = bot;

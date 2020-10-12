@@ -1,7 +1,6 @@
 import { WorkerTask } from '../Common/WorkerTask';
 import { IWithdrawResult, IFailWithdrawResult } from '../../interfaces/withdraw';
 export abstract class WithdrawMakerTask<II> extends WorkerTask {
-  taskName = "Withdraw Maker";
   constructor(inventoryItemsToBuy: II[]) {
     super();
     this.$inventoryItemsToBuy = inventoryItemsToBuy;

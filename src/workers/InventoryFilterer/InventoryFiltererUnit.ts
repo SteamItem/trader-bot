@@ -3,7 +3,6 @@ import { IWishlistItem } from '../../models/wishlistItem';
 import { WorkerUnit } from '../Common/WorkerUnit';
 import helpers from '../../helpers';
 export abstract class InventoryFiltererUnit<II> extends WorkerUnit {
-  taskName = "Inventory Filterer";
   constructor(balance: number, inventoryItems: II[], wishlistItems: IWishlistItem[]) {
     super();
     this.$balance = balance;

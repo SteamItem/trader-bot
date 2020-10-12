@@ -50,19 +50,16 @@ export class DuelbitsCsGoWorker extends WorkerBase {
 
   private inventoryScheduler() {
     return cron.schedule('* * * * * *', async () => {
-      let currentTask = "Inventory Operation";
       try {
         const inventoryResponse = await this.api.csgoInventory();
 
         const inventoryFilterer = new DuelbitsInventoryFilterer(this.balance, inventoryResponse.listings, this.wishlistItems);
-        currentTask = inventoryFilterer.taskName;
         inventoryFilterer.filter();
 
         const withdrawMaker = new DuelbitsWithdrawMakerTask(this.socket, this.tradeUrl, inventoryFilterer.itemsToBuy);
-        currentTask = withdrawMaker.taskName;
         await withdrawMaker.work();
       } catch (e) {
-        this.handleError(currentTask, e.message);
+        this.handleError("Inventory Operation", e.message);
       }
     });
   }
