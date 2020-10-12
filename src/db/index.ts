@@ -173,35 +173,6 @@ RollbitHistory.init({
   tableName: "rollbithistories"
 })
 
-class AgentStatus extends Model {
-  public source: string;
-  public createSocketCount: number;
-  public createSocketErrorCount: number;
-  public closeSocketCount: number;
-  public errorSocketCount: number;
-  public timeoutSocketCount: number;
-  public requestCount: number;
-  public freeSockets: string;
-  public sockets: string;
-  public requests: string;
-}
-
-AgentStatus.init({
-  source: DataTypes.STRING(200),
-  createSocketCount: DataTypes.INTEGER,
-  createSocketErrorCount: DataTypes.INTEGER,
-  closeSocketCount: DataTypes.INTEGER,
-  errorSocketCount: DataTypes.INTEGER,
-  timeoutSocketCount: DataTypes.INTEGER,
-  requestCount: DataTypes.INTEGER,
-  freeSockets: DataTypes.STRING(1000),
-  sockets: DataTypes.STRING(1000),
-  requests: DataTypes.STRING(1000),
-}, {
-  sequelize,
-  tableName: "agentstatuses"
-})
-
 class InventoryOperationTiming extends Model {
   public source: string;
   public name: string;
