@@ -51,9 +51,9 @@ async function startBot(id: string) {
         TELEGRAM_TOKEN: config.TELEGRAM_TOKEN,
         TELEGRAM_CHAT_ID: config.TELEGRAM_CHAT_ID
       }
-    }, function(err) {
+    }, function(err2) {
       pm2.disconnect();
-      if (err) throw err
+      if (err2) throw err2
     });
   });
 }

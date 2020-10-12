@@ -47,7 +47,7 @@ export class RollbitSocket {
     };
     this.socket = new WebSocket(url, "optionalProtocol", options);
     this.socket.onmessage = (ev: WebSocket.MessageEvent) => {
-      const [ch, message, id] = JSON.parse(ev.data.toString());
+      const [ch, message] = JSON.parse(ev.data.toString());
       const listeners = this.channels.get(ch);
       if (listeners && listeners.length)
         listeners.forEach(l => l(message));
