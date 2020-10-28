@@ -8,7 +8,7 @@ import { IBot } from '../../models/bot';
 import { RollbitApi } from '../../api/rollbit';
 import { LoggerBase } from '../Logger/LoggerBase';
 export class RollbitCsGoWorker extends RollbitBase {
-  enumBot = EnumBot.RollbitCsGo;
+  enumBot = EnumBot.Rollbit;
   private balance: number;
   private api: RollbitApi;
   protected bot: IBot;

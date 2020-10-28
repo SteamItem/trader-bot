@@ -114,34 +114,3 @@ export interface IEmpireInstantInventoryItem {
   type: string;
   wear?: number;
 }
-
-export interface IEmpireTradeLockInventoryItem {
-  id: string;
-  market_name: string;
-  market_value: number;
-  img: string;
-  status: number;
-  appid: number;
-  tradelock: IEmpireTradeLock;
-  tradable: boolean;
-  user_sends_trade: boolean;
-  trade_url?: string;
-  fee: number;
-}
-
-export interface IEmpireTradeLockPrice {
-  market_name: string;
-  market_value: number;
-}
-
-export interface IEmpireTradeLockPriceChange {
-  name: string;
-  current_value: number;
-  previous_value: number;
-}
-
-export interface IEmpireTradeLock {
-  time_left_days: number;
-  time_left_hours: number;
-  timestamp?: number;
-}

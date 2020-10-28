@@ -11,7 +11,7 @@ import { IDuelbitsOnAuth, IDuelbitsOnUserUpdate } from '../../interfaces/duelbit
 import { DuelbitsSocket } from '../../api/duelbitsSocket';
 import { DuelbitsWithdrawMakerTask } from '../WithdrawMaker/DuelbitsWithdrawMakerTask';
 export class DuelbitsCsGoWorker extends WorkerBase {
-  enumBot = EnumBot.DuelbitsCsGoWorker;
+  enumBot = EnumBot.Duelbits;
   private balance: number;
   private tradeUrl: string;
   private api: DuelbitsApi;

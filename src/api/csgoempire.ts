@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from 'axios';
-import { IEmpireProfile, IEmpireTradeLockInventoryItem } from '../interfaces/csgoEmpire';
+import { IEmpireProfile } from '../interfaces/csgoEmpire';
 import { IEmpireInstantInventoryItem } from '../interfaces/csgoEmpire';
 import { ApiBase } from './apiBase';
 import { Constants } from '../helpers/constant';
@@ -77,18 +77,6 @@ export class CSGOEmpireApi extends ApiBase {
       }
     };
     const items = await this.axiosInstance.get<IEmpireInstantInventoryItem[]>(`${this.baseUrl}/p2p/inventory/instant`, content);
-    return items.data;
-  }
-
-  public async tradelockInventory(cookie: string): Promise<IEmpireTradeLockInventoryItem[]> {
-    const content = {
-      headers: {
-        'Content-Type': 'application/json',
-        'Cookie': cookie,
-        'Host': 'csgoempire.gg'
-      }
-    };
-    const items = await this.axiosInstance.get<IEmpireTradeLockInventoryItem[]>(`${this.baseUrl}/hermes/inventory/10`, content);
     return items.data;
   }
 }

@@ -2,10 +2,8 @@ import { Sequelize, Model, DataTypes, Association } from 'sequelize';
 import R = require('ramda');
 import config = require('../config');
 import { IRollbitHistory } from '../interfaces/rollbit';
-import { IEmpireTradeLockPrice } from '../interfaces/csgoEmpire';
 
 const sequelize = new Sequelize(config.RDB_URL, {dialect: "postgres"});
-
 
 class PricEmpireItem extends Model {
   public id!: number;
@@ -196,22 +194,6 @@ InventoryOperationTiming.init({
   tableName: "InventoryOperationTimings"
 })
 
-class EmpireTradeLockLastPrice extends Model {
-  public market_name: string;
-  public market_value: number;
-}
-
-EmpireTradeLockLastPrice.init({
-  market_name: {
-    type: DataTypes.STRING(100),
-    primaryKey: true
-  },
-  market_value: DataTypes.DECIMAL(18, 2),
-}, {
-  sequelize,
-  tableName: "EmpireTradeLockLastPrices"
-})
-
 function sync(): Promise<Sequelize> {
   return sequelize.sync();
 }
@@ -224,18 +206,8 @@ function updateRollbitHistoryGone(item: IRollbitHistory): Promise<boolean> {
   return RollbitHistory.upsert(item, {fields: ['ref','price','markup','name','weapon','skin','rarity','exterior','baseprice','gone_at']})
 }
 
-function empireTradeLockLastPrices(): Promise<EmpireTradeLockLastPrice[]> {
-  return EmpireTradeLockLastPrice.findAll();
-}
-
-function updateEmpireTradeLockLastPrices(items: IEmpireTradeLockPrice[]): Promise<EmpireTradeLockLastPrice[]> {
-  return EmpireTradeLockLastPrice.bulkCreate(items, {updateOnDuplicate: ['market_value']});
-}
-
 export = {
   sync,
   updateRollbitHistoryListed,
-  updateRollbitHistoryGone,
-  empireTradeLockLastPrices,
-  updateEmpireTradeLockLastPrices
+  updateRollbitHistoryGone
 }

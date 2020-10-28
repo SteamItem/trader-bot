@@ -14,20 +14,18 @@ export function siteText(site: EnumSite): string {
 }
 
 export enum EnumBot {
-  EmpireInstant = 1,
-  EmpireTradeLockLogger = 2,
-  RollbitCsGo = 3,
-  RollbitCsGoLogger = 4,
-  DuelbitsCsGoWorker = 5
+  CsGoEmpire = 1,
+  Rollbit = 3,
+  RollbitLogger = 4,
+  Duelbits = 5
 }
 
 export function getBotText(bot: EnumBot): string {
   switch(bot) {
-    case EnumBot.EmpireInstant: return "Instant";
-    case EnumBot.EmpireTradeLockLogger: return "TradeLock Logger";
-    case EnumBot.RollbitCsGo: return "Rollbit";
-    case EnumBot.RollbitCsGoLogger: return "Rollbit Logger";
-    case EnumBot.DuelbitsCsGoWorker: return "Duelbits"
+    case EnumBot.CsGoEmpire: return "CSGO Empire";
+    case EnumBot.Rollbit: return "Rollbit";
+    case EnumBot.RollbitLogger: return "Rollbit Logger";
+    case EnumBot.Duelbits: return "Duelbits"
     default: throw new Error("Bot not found");
   }
 }

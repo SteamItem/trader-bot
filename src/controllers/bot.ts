@@ -10,11 +10,10 @@ async function findById(id: string): Promise<IBot> {
 
 function getBotFileName(id: EnumBot) {
   switch (id) {
-    case EnumBot.EmpireInstant: return "instantWorker";
-    case EnumBot.EmpireTradeLockLogger: return "tradeLockLogger";
-    case EnumBot.RollbitCsGo: return "rollbitWorker";
-    case EnumBot.RollbitCsGoLogger: return "rollbitLogger";
-    case EnumBot.DuelbitsCsGoWorker: return "duelbitsWorker";
+    case EnumBot.CsGoEmpire: return "instantWorker";
+    case EnumBot.Rollbit: return "rollbitWorker";
+    case EnumBot.RollbitLogger: return "rollbitLogger";
+    case EnumBot.Duelbits: return "duelbitsWorker";
     default: throw new Error("Bot not found");
   }
 }

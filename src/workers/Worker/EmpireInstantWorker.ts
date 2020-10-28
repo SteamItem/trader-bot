@@ -22,7 +22,7 @@ export class EmpireInstantWorker extends WorkerBase {
   private scheduledTasks: cron.ScheduledTask[] = [];
   private inventoryTimer: NodeJS.Timeout;
 
-  enumBot = EnumBot.EmpireInstant;
+  enumBot = EnumBot.CsGoEmpire;
   getDatabaseSelector(): DatabaseSelectorTask {
     return new EmpireDatabaseSelector(this.botId);
   }
