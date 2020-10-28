@@ -171,29 +171,6 @@ RollbitHistory.init({
   tableName: "rollbithistories"
 })
 
-class InventoryOperationTiming extends Model {
-  public source: string;
-  public name: string;
-  public price: number;
-  public filterTime: number;
-  public withdrawTime: number;
-  public successWithdrawCount: number;
-  public failWithdrawCount: number;
-}
-
-InventoryOperationTiming.init({
-  source: DataTypes.STRING(200),
-  name: DataTypes.STRING(200),
-  price: DataTypes.DECIMAL(18, 2),
-  filterTime: DataTypes.INTEGER,
-  withdrawTime: DataTypes.INTEGER,
-  successWithdrawCount: DataTypes.INTEGER,
-  failWithdrawCount: DataTypes.INTEGER
-}, {
-  sequelize,
-  tableName: "InventoryOperationTimings"
-})
-
 function sync(): Promise<Sequelize> {
   return sequelize.sync();
 }
